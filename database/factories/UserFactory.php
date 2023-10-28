@@ -20,19 +20,10 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'first_name' => $this->faker->firstName,
-            'last_name' => $this->faker->lastName,
-            'phone' => $this->faker->unique()->phoneNumber,
+            'name' => $this->faker->name,
             'email' => $this->faker->unique()->safeEmail,
-            
             'email_verified_at' => now(),
             'password' => Hash::make('password'),
-            'gender' => $this->faker->randomElement(['male', 'female']),
-            'dob' => $this->faker->date,
-            'api_token' => Str::random(60),
-            'password_recovery_token' => null,
-            'bio' => $this->faker->text,
-            'status' => $this->faker->numberBetween(0 ,1),
             'remember_token' => Str::random(10),
             'created_at' => now(),
             'updated_at' => now(),

@@ -11,6 +11,23 @@
                         </div>
                     </div>
                     <div class="card-body pt-0">
+                        <div class="d-flex justify-content-end py-3">
+                            <form action="{{ route('admin.task.filter') }}" method="get">
+                                <div class="d-flex align-items-center">
+                                    <label for="status" class="mr-2">Filter by Status:</label>
+                                    <div class="form-group mb-0">
+                                        <select id="status" name="status" class="form-control py-2" data-placeholder="Select">
+                                            <option value="all" {{ request('status') === 'all' ? 'selected' : '' }}>All</option>
+                                            <option value="Complete" {{ request('status') === 'Complete' ? 'selected' : '' }}>Complete</option>
+                                            <option value="Incomplete" {{ request('status') === 'Incomplete' ? 'selected' : '' }}>Incomplete</option>
+                                        </select>
+                                        
+                                    </div>
+                                    <button type="submit" class="btn btn-info ml-2">Apply</button>
+                                </div>
+                                
+                            </form>
+                        </div>
                         <div class="table-responsive">
                             <table class="table">
                                 <thead class="table-borderless">
@@ -41,7 +58,7 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                @if ($task->status == 'complete')
+                                                @if ($task->status == 'Complete')
                                                     <span class="badge badge-success">Complete</span>
                                                 @else
                                                     <span class="badge badge-warning">Incomplete</span>

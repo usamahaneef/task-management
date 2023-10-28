@@ -9,48 +9,13 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-class User extends Authenticatable implements HasMedia , MustVerifyEmail
+class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable , InteractsWithMedia;
+    use HasApiTokens, HasFactory;
 
-    protected $with = ['profile'];
-    protected $hidden = [ 'password', 'profile' , 'media'];
-    protected $appends = ['student_profile_url'];
+    protected $hidden = [ 'password'];
     
-    public function registerMediaCollections(): void
-    {
-        $this->addMediaCollection('student_profile_image')->singleFile();
-    }
-
-
-    public function profile(): MorphOne
-    {
-        return $this->morphOne(config('media-library.media_model'), 'model');
-    }
-    
-    public function getStudentProfileUrlAttribute()
-    {
-        $url = null;
-        if ($this->relationLoaded('profile')) {
-            $url = optional($this->profile)->getUrl();
-        }
-        return $url ? asset($url): asset('admin/img/avatar-user.png');
-    }
-
-    public function getNameAttribute()
-    {
-        return $this->attributes['first_name'] . ' ' . $this->attributes['last_name'];
-    }
-
-    public function university(): BelongsTo
-    {
-        return $this->belongsTo(University::class);
-    }
 
     protected $fillable = [
         'name',

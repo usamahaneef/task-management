@@ -16,9 +16,26 @@ class TaskController extends Controller
             'menu_active' => 'task',
             'nav_sub_menu' => '',
             'tasks' => $tasks,
-
         ]);
     }
+
+    public function filter(Request $request)
+    {
+        $status = $request->query('status');
+        if($status == 'all'){
+            $tasks = Task::all();
+        }else{
+            $tasks = Task::where('status', $status)->get();
+        }
+
+        return view('admin.sections.task.index',[
+            'title' => 'Tasks',
+            'menu_active' => 'task',
+            'nav_sub_menu' => '',
+            'tasks' => $tasks,
+        ]);
+    }
+    
 
     public function create()
     {
